@@ -441,6 +441,10 @@ impl Citation {
     pub fn key_list(&self) -> Option<CurlyGroupWordList> {
         self.syntax().children().find_map(CurlyGroupWordList::cast)
     }
+
+    pub fn key_lists(&self) -> impl Iterator<Item = CurlyGroupWordList> + '_ {
+        self.syntax().children().filter_map(CurlyGroupWordList::cast)
+    }
 }
 
 cst_node!(

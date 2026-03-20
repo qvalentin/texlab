@@ -308,7 +308,7 @@ impl Semantics {
 
     fn process_citation(&mut self, citation: latex::Citation) {
         let full_range = latex::small_range(&citation);
-        if let Some(list) = citation.key_list() {
+        for list in citation.key_lists() {
             for key in list.keys() {
                 let name = Span::from(&key);
                 if !name.text.contains('#') {
