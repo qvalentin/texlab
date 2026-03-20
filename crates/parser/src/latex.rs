@@ -703,14 +703,18 @@ impl<'a> Parser<'a> {
         self.builder.start_node(CITATION.into());
         self.eat();
         self.trivia();
-        for _ in 0..2 {
-            if self.lexer.peek() == Some(Token::LBrack) {
-                self.brack_group();
+        loop {
+            for _ in 0..2 {
+                if self.lexer.peek() == Some(Token::LBrack) {
+                    self.brack_group();
+                }
             }
-        }
 
-        if self.lexer.peek() == Some(Token::LCurly) {
-            self.curly_group_word_list();
+            if self.lexer.peek() == Some(Token::LCurly) {
+                self.curly_group_word_list();
+            } else {
+                break;
+            }
         }
 
         self.builder.finish_node();

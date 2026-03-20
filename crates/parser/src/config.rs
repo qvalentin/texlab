@@ -198,6 +198,7 @@ static DEFAULT_CITATION_COMMANDS: &[&str] = &[
     "fnotecite",
     "citeA",
     "citeA*",
+    "cites",
 ];
 
 static DEFAULT_GLOSSARY_REFERENCE_COMMANDS: &[&str] = &[

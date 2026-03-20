@@ -335,6 +335,41 @@ fn test_citation_unused() {
 }
 
 #[test]
+fn test_citation_unused_not_flagged_with_cites() {
+    check(
+        r#"
+%! main.bib
+@article{foo,}
+
+%! main.tex
+\bibliography{main}
+\cites{foo}
+"#,
+        expect![[r#"
+            []
+        "#]],
+    )
+}
+
+#[test]
+fn test_citation_unused_not_flagged_with_cites_multiple() {
+    check(
+        r#"
+%! main.bib
+@article{foo,}
+@article{bar,}
+
+%! main.tex
+\bibliography{main}
+\cites{foo}{bar}
+"#,
+        expect![[r#"
+            []
+        "#]],
+    )
+}
+
+#[test]
 fn test_label_duplicate() {
     check(
         r#"

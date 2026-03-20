@@ -376,6 +376,64 @@ fn test_citation_redundant_comma() {
 }
 
 #[test]
+fn test_citation_multi_group() {
+    check(
+        r#"\cites{foo}{bar}"#,
+        expect![[r#"
+            ROOT@0..16
+              PREAMBLE@0..16
+                CITATION@0..16
+                  COMMAND_NAME@0..6 "\\cites"
+                  CURLY_GROUP_WORD_LIST@6..11
+                    L_CURLY@6..7 "{"
+                    KEY@7..10
+                      WORD@7..10 "foo"
+                    R_CURLY@10..11 "}"
+                  CURLY_GROUP_WORD_LIST@11..16
+                    L_CURLY@11..12 "{"
+                    KEY@12..15
+                      WORD@12..15 "bar"
+                    R_CURLY@15..16 "}"
+
+        "#]],
+    );
+}
+
+#[test]
+fn test_citation_multi_group_with_notes() {
+    check(
+        r#"\cites{foo}[pre][post]{bar}"#,
+        expect![[r#"
+            ROOT@0..27
+              PREAMBLE@0..27
+                CITATION@0..27
+                  COMMAND_NAME@0..6 "\\cites"
+                  CURLY_GROUP_WORD_LIST@6..11
+                    L_CURLY@6..7 "{"
+                    KEY@7..10
+                      WORD@7..10 "foo"
+                    R_CURLY@10..11 "}"
+                  BRACK_GROUP@11..16
+                    L_BRACK@11..12 "["
+                    TEXT@12..15
+                      WORD@12..15 "pre"
+                    R_BRACK@15..16 "]"
+                  BRACK_GROUP@16..22
+                    L_BRACK@16..17 "["
+                    TEXT@17..21
+                      WORD@17..21 "post"
+                    R_BRACK@21..22 "]"
+                  CURLY_GROUP_WORD_LIST@22..27
+                    L_CURLY@22..23 "{"
+                    KEY@23..26
+                      WORD@23..26 "bar"
+                    R_CURLY@26..27 "}"
+
+        "#]],
+    );
+}
+
+#[test]
 fn test_citation_simple() {
     check(
         r#"\cite{foo}"#,
